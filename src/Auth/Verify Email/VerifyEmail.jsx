@@ -11,6 +11,7 @@ export default function VerifyEmail() {
   const [loading, setLoading] = useState(false)
   const token = Cookies.get('emailToken')
   const navigate = useNavigate()
+  console.log('yy',token);
 
   const handleSubmit = async (e) => {
     e.preventDefault()

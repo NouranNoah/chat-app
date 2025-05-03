@@ -31,7 +31,7 @@ export default function Login() {
 
       setMessage('Login successful!');
       Cookies.set('authToken', response.data.token);
-      navigate('/chat');
+      navigate('/');
     } catch (err) {
       if (err.response?.data?.message) {
         setError(err.response.data.message);

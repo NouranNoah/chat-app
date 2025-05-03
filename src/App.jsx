@@ -8,6 +8,9 @@ import ForgetPassword from './Auth/ForgetPassword/ForgetPassword'
 import VerifyPassword from './Auth/Verify Password/VerifyPassword'
 import ResetPass from './Auth/ResetPass/ResetPass'
 import Dashboard from './DashboardPage/Dashboard'
+import ChatApp from './Components/ChatApp'
+import Sidebar from './Components/Sidebar'
+import ChatWindow from './Components/ChatWindow'
 
 function App() {
 
@@ -21,6 +24,9 @@ function App() {
         <Route path='/verifyPass' element={<VerifyPassword/>}></Route>
         <Route path='/resetPass' element={<ResetPass/>}></Route>
         <Route path='/' element={<Dashboard/>}></Route>
+        <Route path='/ChatApp' element={<ChatApp/>}></Route>
+        <Route path='/Sidear' element={<Sidebar />}></Route>
+        <Route path='/ChatWindow' element={<ChatWindow/>}></Route>
       </Routes>
     </>
   )

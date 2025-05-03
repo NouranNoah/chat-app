@@ -8,19 +8,20 @@ const Dashboard = () => {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const token = Cookies.get('token');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userRes = await axios.get("/users/getMe", {
+        const userRes = await axios.get("https://chat-app-api-production-7f75.up.railway.app/api/v1/users/getMe", {
           headers: { Authorization: token },
         });
         setUser(userRes.data.data);
 
-        const roomsRes = await axios.get("/rooms", {
-          headers: { Authorization: `Bearer ${token}` },
+        const roomsRes = await axios.get("https://chat-app-api-production-7f75.up.railway.app/api/v1/rooms", {
+          headers: { Authorization: token },
         });
+        console.log(roomsRes.data);
+
         setRooms(roomsRes.data.data);
 
         setLoading(false);
@@ -37,7 +38,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard">
       <section className="user-info">
-        <h2>Welcome, {user.username} 👋</h2>
+        <h2>Welcome, {user.username}</h2>
         <p>Email: {user.email}</p>
       </section>
 

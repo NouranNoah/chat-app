@@ -39,6 +39,7 @@ export default function Signup() {
         }
       )
       Cookies.set('emailToken', response.data.token)
+      console.log(response.data.token)
       setSuccess('Account created! Check your email to activate your account.📩')
       setErrors({})
       setIsLoading(false)
