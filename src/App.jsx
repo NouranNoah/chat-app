@@ -1,35 +1,36 @@
-import { useState } from 'react'
-import { Route, Routes } from 'react-router-dom'
-import './App.css'
-import Signup from './Auth/SignUp/Signup'
-import Login from './Auth/Login/Login'
-import VerifyEmail from './Auth/Verify Email/VerifyEmail'
-import ForgetPassword from './Auth/ForgetPassword/ForgetPassword'
-import VerifyPassword from './Auth/Verify Password/VerifyPassword'
-import ResetPass from './Auth/ResetPass/ResetPass'
-import Dashboard from './DashboardPage/Dashboard'
-import ChatApp from './Components/ChatApp'
-import Sidebar from './Components/Sidebar'
-import ChatWindow from './Components/ChatWindow'
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebase';
+import Login from './Auth/Login';
+import Signup from './Auth/Signup';
+import Chat from './Components/Chat';
 
 function App() {
+  const [user, setUser] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  if (loading) {
+    return <div>جاري التحميل...</div>;
+  }
 
   return (
-    <>
-      <Routes>
-        <Route path='/signup' element={<Signup/>}></Route>
-        <Route path='/VerifyEmail' element={<VerifyEmail/>}></Route>
-        <Route path='/login' element={<Login/>}></Route>
-        <Route path='/forgetPass' element={<ForgetPassword/>}></Route>
-        <Route path='/verifyPass' element={<VerifyPassword/>}></Route>
-        <Route path='/resetPass' element={<ResetPass/>}></Route>
-        <Route path='/' element={<Dashboard/>}></Route>
-        <Route path='/ChatApp' element={<ChatApp/>}></Route>
-        <Route path='/Sidear' element={<Sidebar />}></Route>
-        <Route path='/ChatWindow' element={<ChatWindow/>}></Route>
-      </Routes>
-    </>
-  )
+    <Routes>
+      <Route path="/login" element={!user ? <Login /> : <Navigate to="/chat" />} />
+      <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/chat" />} />
+      <Route path="/chat" element={user ? <Chat /> : <Navigate to="/login" />} />
+      <Route path="/" element={<Navigate to={user ? "/chat" : "/login"} />} />
+    </Routes>
+  );
 }
 
-export default App
+export default App;
